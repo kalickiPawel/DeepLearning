@@ -57,15 +57,15 @@ class MLP:
         model.add(Dense(10, activation=self.activation, input_shape=(28 * 28, 1)))
         opt = None
         if self.optimizer == 'adam':
-            opt = Adam(lr=self.lr, momentum=0.9)
+            opt = Adam(learning_rate=self.lr)
         elif self.optimizer == 'sgd':
-            opt = SGD(lr=self.lr, momentum=0.9)
+            opt = SGD(learning_rate=self.lr)
         elif self.optimizer == 'adadelta':
-            opt = Adadelta(lr=self.lr, momentum=0.9)
+            opt = Adadelta(learning_rate=self.lr)
         elif self.optimizer == 'adagrad':
-            opt = Adagrad(lr=self.lr, momentum=0.9)
+            opt = Adagrad(learning_rate=self.lr)
         elif self.optimizer == 'rmsprop':
-            opt = RMSprop(lr=self.lr, momentum=0.9)
+            opt = RMSprop(learning_rate=self.lr)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
         return model
 
