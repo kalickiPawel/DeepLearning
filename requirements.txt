@@ -1,2 +1,4 @@
 Keras~=2.4.3
 tensorflow~=2.4.0
+pandas~=1.1.5
+matplotlib~=3.3.3
