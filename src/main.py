@@ -5,14 +5,10 @@ import time
 
 
 if __name__ == "__main__":
-    # activation = ['sigmoid', 'hard_sigmoid', 'tanh', 'linear', 'relu', 'softmax']
-    # epochs = [10, 100, 1000]
-    # optimizers = ['adam', 'sgd', 'adadelta', 'adagrad', 'rmsprop']
-    # learning_rate = [0.01, 0.05, 0.1, 0.2, 0.5]
-    activation = ['sigmoid', 'hard_sigmoid']
-    epochs = [10, 100]
-    optimizers = ['adam', 'sgd']
-    learning_rate = [0.01, 0.05]
+    activation = ['sigmoid', 'hard_sigmoid', 'tanh', 'linear', 'relu', 'softmax']
+    epochs = [10, 100, 1000]
+    optimizers = ['adam', 'sgd', 'adadelta', 'adagrad', 'rmsprop']
+    learning_rate = [0.01, 0.05, 0.1, 0.2, 0.5]
 
     results = {'id_probe': [], 'activation': [], 'epoch': [], 'optimiser': [], 'learning_rate': [], 'result': [], 'time': []}
 
@@ -45,7 +41,7 @@ if __name__ == "__main__":
     df_results = df_results.assign(id_probe=df['id_probe'])
 
     fig, (ax1, ax2, ax3) = plt.subplots(3)
-    fig.suptitle(f"Results of {test_cases} in {round(summary_time/60, 2)} minutes")
+    fig.suptitle(f"Results of {test_cases} test cases in {round(summary_time/60, 2)} minutes")
     ax1.plot(df['id_probe'], df['time'], 'b-')
     ax1.set_title('Time')
 
