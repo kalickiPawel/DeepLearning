@@ -8,6 +8,7 @@ class MLP:
     lr = 0.0
     trainX, trainY = [], []
     testX, testY = [], []
+    trainNorm, testNorm = [], []
 
     def __init__(self, activation='softmax', epochs=10, optimizer='sgd', learning_rate=0.01, bs=256):
         self.activation = activation
@@ -17,6 +18,7 @@ class MLP:
         self.bs = bs
 
         self.trainX, self.trainY, self.testX, self.testY = self.load_dataset()
+        self.trainNorm, self.testNorm = self.normalize_data('x')
 
     @staticmethod
     def load_dataset():
@@ -29,3 +31,16 @@ class MLP:
         test_x = testX.reshape((testX.shape[0], 28, 28, 1))
         test_y = to_categorical(testY)
         return train_x, train_y, test_x, test_y
+
+    def normalize_data(self, set_type):
+        train, test = [], []
+        if set_type == 'x':
+            train = self.trainX.astype('float32')
+            test = self.testX.astype('float32')
+        elif set_type == 'y':
+            train = self.trainY.astype('float32')
+            test = self.testY.astype('float32')
+        else:
+            print("Probably this is wrong set")
+        train, test = train / 255.0, test / 255.0
+        return train, test
