@@ -14,7 +14,7 @@ class MLP:
     trainNorm, testNorm = [], []
     model = None
 
-    def __init__(self, activation='softmax', epochs=10, optimizer='sgd', learning_rate=0.01, bs=256):
+    def __init__(self, activation='softmax', epochs=10, optimizer='sgd', learning_rate=0.01, bs=256, v=1):
         self.activation = activation
         self.epochs = epochs
         self.optimizer = optimizer
@@ -24,6 +24,7 @@ class MLP:
         self.trainX, self.trainY, self.testX, self.testY = self.load_dataset()
         self.trainNorm, self.testNorm = self.normalize_data('x')
         self.model = self.get_model()
+        self.fit_model(v)
 
     @staticmethod
     def load_dataset():
@@ -67,3 +68,6 @@ class MLP:
             opt = RMSprop(lr=self.lr, momentum=0.9)
         model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
         return model
+
+    def fit_model(self, v):
+        self.model.fit(self.trainX, self.trainY, epochs=self.epochs, batch_size=self.bs, verbose=v)
