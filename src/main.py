@@ -6,3 +6,5 @@ if __name__ == "__main__":
     optimizers = ['adam', 'sgd', 'adadelta', 'adagrad', 'rmsprop']
     learning_rate = 0.01
     lab1 = MLP()
+    res = lab1.check_model()
+    print(f"Result: {res}")

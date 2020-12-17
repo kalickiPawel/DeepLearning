@@ -71,3 +71,6 @@ class MLP:
 
     def fit_model(self, v):
         self.model.fit(self.trainX, self.trainY, epochs=self.epochs, batch_size=self.bs, verbose=v)
+
+    def check_model(self):
+        return self.model.evaluate(self.testX, self.testY)
