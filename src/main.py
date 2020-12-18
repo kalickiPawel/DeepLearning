@@ -1,7 +1,8 @@
-from laboratories import MLP
 import matplotlib.pyplot as plt
 import pandas as pd
 import time
+import json
+import os
 
 from laboratories import MLP
 from src.utils import get_project_root
@@ -9,18 +10,20 @@ from src.utils import get_project_root
 root = get_project_root()
 
 if __name__ == "__main__":
+    output_path = os.path.join(root, 'out')
+    json_path = os.path.join(output_path, 'results.json')
+
     activation = ['sigmoid', 'hard_sigmoid', 'tanh', 'linear', 'relu', 'softmax']
     epochs = [10, 100, 1000]
     optimizers = ['adam', 'sgd', 'adadelta', 'adagrad', 'rmsprop']
-    learning_rate = [0.01, 0.05, 0.1, 0.2, 0.5]
-
-    results = {'id_probe': [], 'activation': [], 'epoch': [], 'optimiser': [], 'learning_rate': [], 'result': [], 'time': []}
+    learning_rate = [0.01, 0.02, 0.05, 0.09, 0.1]
 
     test_cases = len(activation)*len(epochs)*len(optimizers)*len(learning_rate)
     print(f"Test cases: {test_cases}")
 
     i = 0
     summary_time = 0
+    experiments = []
     for a in activation:
         for e in epochs:
             for o in optimizers:
@@ -28,19 +31,30 @@ if __name__ == "__main__":
                     t1 = time.time()
                     lab1 = MLP(activation=a, epochs=e, optimizer=o, learning_rate=lr, v=0)
                     result_time = time.time() - t1
-                    results['id_probe'].append(i)
-                    results['activation'].append(a)
-                    results['epoch'].append(e)
-                    results['optimiser'].append(o)
-                    results['learning_rate'].append(lr)
-                    print(f"Test case: {i}/{test_cases} -> summary_time: {round(summary_time/60, 2)} minutes")
-                    results['result'].append(lab1.check_model())
-                    results['time'].append(result_time)
+                    print(f"Test case: {i + 1}/{test_cases} -> summary_time: {round(summary_time / 60, 2)} minutes")
+                    r = lab1.check_model()
                     print(f"Done in time: {result_time} [seconds]")
+
+                    result = {
+                        'id_probe': i,
+                        'activation': a,
+                        'epoch': e,
+                        'optimiser': o,
+                        'learning_rate': lr,
+                        'result': r,
+                        'time': result_time
+                    }
+                    experiments.append(result)
+                    with open(json_path, 'w') as fp:
+                        json.dump({'experiments': experiments}, fp, indent=4)
+                        fp.write('\n')
+
                     i += 1
                     summary_time += result_time
 
-    df = pd.DataFrame.from_dict(results)
+    json_pd = pd.read_json(json_path)
+    df = pd.DataFrame.from_records(json_pd['experiments'].values)
+
     df_results = pd.DataFrame(df["result"].to_list(), columns=['loss', 'accuracy'])
     df_results = df_results.assign(id_probe=df['id_probe'])
 
