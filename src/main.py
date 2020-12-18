@@ -3,6 +3,10 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import time
 
+from laboratories import MLP
+from src.utils import get_project_root
+
+root = get_project_root()
 
 if __name__ == "__main__":
     activation = ['sigmoid', 'hard_sigmoid', 'tanh', 'linear', 'relu', 'softmax']
