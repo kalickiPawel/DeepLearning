@@ -7,19 +7,20 @@ from keras.optimizers import SGD, Adam, Adadelta, Adagrad, RMSprop
 
 class MLP:
     activation, optimizer = '', ''
-    epochs, bs = 0, 0
+    epochs, bs, neurons = 0, 0, 0
     lr = 0.0
     trainX, trainY = [], []
     testX, testY = [], []
     trainNorm, testNorm = [], []
     model = None
 
-    def __init__(self, activation='softmax', epochs=10, optimizer='sgd', learning_rate=0.01, bs=256, v=1):
+    def __init__(self, activation='softmax', epochs=10, optimizer='sgd', learning_rate=0.01, neurons=10, bs=256, v=1):
         self.activation = activation
         self.epochs = epochs
         self.optimizer = optimizer
         self.lr = learning_rate
         self.bs = bs
+        self.neurons = neurons
 
         self.trainX, self.trainY, self.testX, self.testY = self.load_dataset()
         self.trainNorm, self.testNorm = self.normalize_data('x')
